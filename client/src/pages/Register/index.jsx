@@ -1,10 +1,21 @@
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, message } from "antd";
 import Divider from "../../components/Divider";
 import { Link } from "react-router-dom";
+import { RegisterUser } from "../../apicalls/user";
 
 function Register() {
-  const onFinish = (value) => {
-    console.log("Success:", value);
+  const onFinish = async (values) => {
+    console.log(values);
+    try {
+      const response = await RegisterUser(values);
+      if (response.success) {
+        message.success(response.message);
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      message.error(error.message);
+    }
   };
   return (
     <div className="grid grid-cols-2">
